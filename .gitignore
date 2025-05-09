@@ -6,3 +6,5 @@
 /**/*.log
 /**/*.env.*
 /**/uv.lock
+/**/lcov.info
+/**/.coverage
