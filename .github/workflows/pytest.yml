@@ -48,7 +48,7 @@ jobs:
           BADGE_RELATIVE_PATH="${BADGE_PATH#/}"
 
           echo "Coverage badge path extracted from README.md: $BADGE_PATH"
-          echo "Cleaned badge path for git add: $BADGE_RELATIVE_PATH"
+          echo "Relative badge path for git add: $BADGE_RELATIVE_PATH"
 
           if [ ! -f "$BADGE_RELATIVE_PATH" ]; then
             echo "File $BADGE_RELATIVE_PATH does not exist! Cannot push."
