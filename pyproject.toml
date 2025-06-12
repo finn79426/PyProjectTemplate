@@ -10,6 +10,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "coverage-badge>=1.1.2",
+    "coverage[toml]>=7.9.0",
     "pytest>=8.3.5",
     "pytest-aio>=1.9.0",
     "pytest-cov>=6.1.1",
@@ -21,3 +23,6 @@ source = ["src"]
 
 [tool.pytest.ini_options]
 addopts = "--cov --cov-report=lcov:lcov.info"
+markers = [
+    "flaky: This test depends on unstable external resources."
+]

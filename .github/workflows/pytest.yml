@@ -22,5 +22,44 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
-      - name: Run tests
-        run: uv run pytest
+      - name: Run unit tests
+        run: uv run pytest -m "not flaky"
+
+      - name: Run flaky tests
+        continue-on-error: true
+        run: uv run pytest -m "flaky" --cov-append
+      
+      - name: Update coverage badge
+        run: |
+          BEDGE_TEXT_LINE=$(grep '\[!\[.*\](.*coverage\.svg)' README.md | head -n1)
+
+          if [ -z "$BEDGE_TEXT_LINE" ]; then
+            echo "No coverage badge found in README.md, skipping push."
+            exit 0
+          fi
+
+          BADGE_PATH=$(echo "$BEDGE_TEXT_LINE" | sed -n 's/.*(\([^)]*coverage\.svg\)).*/\1/p')
+
+          if [ -z "$BADGE_PATH" ]; then
+            echo "Failed to parse coverage badge path from README.md"
+            exit 1
+          fi
+
+          BADGE_RELATIVE_PATH="${BADGE_PATH#/}"
+
+          echo "Coverage badge path extracted from README.md: $BADGE_PATH"
+          echo "Cleaned badge path for git add: $BADGE_RELATIVE_PATH"
+
+          if [ ! -f "$BADGE_RELATIVE_PATH" ]; then
+            echo "File $BADGE_RELATIVE_PATH does not exist! Cannot push."
+            exit 1
+          fi
+
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add "$BADGE_RELATIVE_PATH"
+          git commit -m "docs: update coverage badge [skip ci]" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
