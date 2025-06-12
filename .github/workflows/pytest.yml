@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - main
+      - dev
   pull_request:
     branches:
       - main
+      - dev
+permissions:
+  contents: write
 jobs:
   test:
     name: test
@@ -57,6 +61,8 @@ jobs:
 
           git add "$BADGE_RELATIVE_PATH"
           git commit -m "docs: update coverage badge [skip ci]" || echo "No changes to commit"
-          git push
+
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git push origin HEAD:${GITHUB_REF##*/}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
