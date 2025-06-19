@@ -15,6 +15,12 @@ My Python Repository Template
 - Automatically run tests when push to GitHub Repository.
 - Automatically generate test coverage badge for `README.md`.
 
+## run
+
+```shell=
+PYTHONPATH=. uv run src/main.py
+```
+
 ## Test
 
 ```shell=

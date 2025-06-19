@@ -17,3 +17,8 @@ def greeting(name: str) -> str:
     print(f'{THIS_DIR_ABS_PATH=}')
     print(f'{THIS_FILE_BASE_NAME=}')
     return f"Hello {name}"
+
+# ------------------------------------------------------------------
+
+if __name__ == "__main__":
+    print(greeting("world"))
