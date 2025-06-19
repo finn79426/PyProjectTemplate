@@ -14,3 +14,9 @@ My Python Repository Template
 - Prevent committing secrets.
 - Automatically run tests when push to GitHub Repository.
 - Automatically generate test coverage badge for `README.md`.
+
+## Test
+
+```shell=
+PYTHONPATH=. uv run pytest -rA
+```
